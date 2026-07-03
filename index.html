@@ -394,20 +394,20 @@ const MATCHES_R8 = [
   {id:'p96', round:'r8',    home:'Suiza',      away:'Colombia',   kickoff:'2026-07-07T16:00:00-04:00', venue:'Estadio Vancouver'},
 ];
 const MATCHES_R4 = [
-  {id:'p97', round:'r4',  home:'', away:'', kickoff:'2026-07-09T16:00:00-04:00', venue:'Estadio Boston',      hint:'G.P89 vs G.P90'},
-  {id:'p98', round:'r4',  home:'', away:'', kickoff:'2026-07-10T15:00:00-04:00', venue:'Estadio Los Ángeles', hint:'G.P93 vs G.P94'},
-  {id:'p99', round:'r4',  home:'', away:'', kickoff:'2026-07-11T17:00:00-04:00', venue:'Estadio Miami',       hint:'G.P91 vs G.P92'},
-  {id:'p100',round:'r4',  home:'', away:'', kickoff:'2026-07-11T21:00:00-04:00', venue:'Estadio Kansas City', hint:'G.P95 vs G.P96'},
+  {id:'p97', round:'r4',  home:'', away:'', kickoff:'2026-07-09T16:00:00-04:00', venue:'Estadio Boston',      hint:'G.P89 vs G.P90', candidates:['Paraguay','Francia','Canadá','Marruecos']},
+  {id:'p98', round:'r4',  home:'', away:'', kickoff:'2026-07-10T15:00:00-04:00', venue:'Estadio Los Ángeles', hint:'G.P93 vs G.P94', candidates:['Portugal','España','USA','Bélgica']},
+  {id:'p99', round:'r4',  home:'', away:'', kickoff:'2026-07-11T17:00:00-04:00', venue:'Estadio Miami',       hint:'G.P91 vs G.P92', candidates:['Brasil','Noruega','México','Inglaterra']},
+  {id:'p100',round:'r4',  home:'', away:'', kickoff:'2026-07-11T21:00:00-04:00', venue:'Estadio Kansas City', hint:'G.P95 vs G.P96', candidates:['Argentina','Egipto','Suiza','Colombia']},
 ];
 const MATCHES_R2 = [
-  {id:'p101',round:'r2',  home:'', away:'', kickoff:'2026-07-14T15:00:00-04:00', venue:'Estadio Dallas',      hint:'G.P97 vs G.P98'},
-  {id:'p102',round:'r2',  home:'', away:'', kickoff:'2026-07-15T15:00:00-04:00', venue:'Estadio Atlanta',     hint:'G.P99 vs G.P100'},
+  {id:'p101',round:'r2',  home:'', away:'', kickoff:'2026-07-14T15:00:00-04:00', venue:'Estadio Dallas',      hint:'G.P97 vs G.P98', candidates:['Paraguay','Francia','Canadá','Marruecos','Portugal','España','USA','Bélgica']},
+  {id:'p102',round:'r2',  home:'', away:'', kickoff:'2026-07-15T15:00:00-04:00', venue:'Estadio Atlanta',     hint:'G.P99 vs G.P100', candidates:['Brasil','Noruega','México','Inglaterra','Argentina','Egipto','Suiza','Colombia']},
 ];
 const MATCHES_R3 = [
-  {id:'p103',round:'r3',  home:'', away:'', kickoff:'2026-07-18T17:00:00-04:00', venue:'Estadio Miami',       hint:'P.P101 vs P.P102'},
+  {id:'p103',round:'r3',  home:'', away:'', kickoff:'2026-07-18T17:00:00-04:00', venue:'Estadio Miami',       hint:'P.P101 vs P.P102', candidates:['Paraguay','Francia','Canadá','Marruecos','Portugal','España','USA','Bélgica','Brasil','Noruega','México','Inglaterra','Argentina','Egipto','Suiza','Colombia']},
 ];
 const MATCHES_FINAL = [
-  {id:'p104',round:'final',home:'', away:'', kickoff:'2026-07-19T15:00:00-04:00', venue:'Estadio Nueva York',  hint:'G.P101 vs G.P102'},
+  {id:'p104',round:'final',home:'', away:'', kickoff:'2026-07-19T15:00:00-04:00', venue:'Estadio Nueva York', hint:'G.P101 vs G.P102', candidates:['Paraguay','Francia','Canadá','Marruecos','Portugal','España','USA','Bélgica','Brasil','Noruega','México','Inglaterra','Argentina','Egipto','Suiza','Colombia']},
 ];
 
 function getAllMatches(){
@@ -980,15 +980,16 @@ function renderAdminResults(){
         const hint = m.hint || '';
         html += '<p style="font-size:.78rem;color:var(--accent);margin-bottom:6px">'+hint+'</p>';
         html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">';
+        const teamList = (m.candidates || ALL_TEAMS).slice().sort((a,b)=>a.localeCompare(b));
         html += '<select id="adv_home_'+m.id+'" class="team-select" style="font-size:.82rem">';
         html += '<option value="">— Local —</option>';
-        [...ALL_TEAMS].sort((a,b)=>a.localeCompare(b)).forEach(t=>{
+        teamList.forEach(t=>{
           html += '<option value="'+t+'"'+(adv[m.id+'_home']===t?' selected':'')+'>'+t+'</option>';
         });
         html += '</select>';
         html += '<select id="adv_away_'+m.id+'" class="team-select" style="font-size:.82rem">';
         html += '<option value="">— Visita —</option>';
-        [...ALL_TEAMS].sort((a,b)=>a.localeCompare(b)).forEach(t=>{
+        teamList.forEach(t=>{
           html += '<option value="'+t+'"'+(adv[m.id+'_away']===t?' selected':'')+'>'+t+'</option>';
         });
         html += '</select>';
