@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polla Eliminatorias Mundial 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.15);
+  --text: #f0f4ff;
+  --muted: #8896b3;
+  --accent: #e8c84a;
+  --accent2: #3b82f6;
+  --green: #22c55e;
+  --red: #ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh}
+.hero{background:linear-gradient(135deg,#0f1f3d 0%,#1a0f2e 50%,#0a1628 100%);padding:2rem 1rem 1.5rem;text-align:center;border-bottom:1px solid var(--border2);position:relative;overflow:hidden}
+.hero-deco{position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(232,200,74,0.12) 0%,transparent 70%)}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.2rem,7vw,3.6rem);font-weight:800;letter-spacing:-.02em;line-height:1;text-transform:uppercase;position:relative}
+.hero-title span{color:var(--accent)}
+.hero-sub{font-size:.8rem;color:var(--muted);margin-top:.5rem;letter-spacing:.08em;text-transform:uppercase}
+.hero-trophy{font-size:3rem;display:block;margin:0 auto .25rem;animation:trophy-glow 2s ease-in-out infinite alternate}
+@keyframes trophy-glow{0%{filter:drop-shadow(0 0 6px rgba(232,200,74,.4))}100%{filter:drop-shadow(0 0 18px rgba(232,200,74,.9))}}
+.api-banner{background:rgba(232,200,74,0.1);border:1px solid rgba(232,200,74,0.3);border-radius:8px;padding:.75rem 1rem;margin:1rem auto;max-width:600px;font-size:.85rem;color:var(--accent);display:flex;align-items:center;gap:8px;position:relative;z-index:1}
+.api-banner input{flex:1;background:rgba(0,0,0,0.3);border:1px solid rgba(232,200,74,0.4);border-radius:6px;padding:6px 10px;color:var(--text);font-size:.85rem;font-family:'Barlow',sans-serif}
+.api-banner button{background:var(--accent);color:#000;border:none;border-radius:6px;padding:6px 14px;font-weight:600;cursor:pointer;font-family:'Barlow',sans-serif;font-size:.85rem;white-space:nowrap}
+.pozo-banner{background:linear-gradient(90deg,rgba(232,200,74,.15) 0%,rgba(232,200,74,.05) 50%,rgba(232,200,74,.15) 100%);border-top:1px solid rgba(232,200,74,.3);border-bottom:1px solid rgba(232,200,74,.3);padding:.6rem 1rem;text-align:center;position:relative;overflow:hidden}
+.pozo-banner::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(232,200,74,.15),transparent);animation:shimmer 2.5s infinite}
+@keyframes shimmer{0%{left:-100%}100%{left:200%}}
+.pozo-amount{font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);letter-spacing:.02em}
+.pozo-sub{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.pozo-dist{font-size:.75rem;color:var(--muted);margin-top:2px}
+.pozo-dist span{color:var(--text);font-weight:600}
+.tabs{display:flex;justify-content:center;gap:4px;padding:.75rem 1rem;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.tab{padding:.5rem 1.1rem;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.95rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid transparent;border-radius:6px;cursor:pointer;transition:all .2s}
+.tab:hover{color:var(--text);border-color:var(--border2)}
+.tab.active{color:#000;background:var(--accent);border-color:var(--accent)}
+.container{max-width:680px;margin:0 auto;padding:1.5rem 1rem}
+.view{display:none}.view.active{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:12px}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+label{font-size:.85rem;color:var(--muted);display:block;margin-bottom:5px}
+input[type=text],input[type=number],input[type=password],select{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.95rem;font-family:'Barlow',sans-serif;width:100%;outline:none;transition:border .2s}
+input:focus,select:focus{border-color:var(--accent)}
+.btn{padding:10px 24px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.btn:hover{border-color:var(--border2);background:var(--surface)}
+.btn.primary{background:var(--accent);color:#000;border-color:var(--accent)}
+.btn.primary:hover{opacity:.88}
+.btn.full{width:100%;margin-top:.75rem}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.match-row{display:grid;grid-template-columns:1fr 52px 24px 52px 1fr;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)}
+.match-row:last-child{border:none}
+.team-name{font-size:.85rem;font-weight:500}
+.team-name.right{text-align:right}
+.score-box{background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:6px 4px;text-align:center;font-size:1.1rem;font-weight:600;width:52px}
+.score-box input{background:none;border:none;text-align:center;font-size:1.1rem;font-weight:600;color:var(--text);width:100%;padding:0;outline:none}
+.vs{text-align:center;font-size:.75rem;color:var(--muted);font-weight:600}
+.round-label{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:1.2rem 0 .5rem;padding-bottom:4px;border-bottom:1px solid rgba(232,200,74,.2)}
+.leader-row{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.leader-row:last-child{border:none}
+.rank-num{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;text-align:center;color:var(--muted)}
+.rank-num.gold{color:var(--accent)}
+.rank-num.silver{color:#94a3b8}
+.rank-num.bronze{color:#cd7c3d}
+.player-name{font-weight:600;font-size:.95rem}
+.player-sub{font-size:.78rem;color:var(--muted);margin-top:1px}
+.pts-num{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;color:var(--accent);line-height:1}
+.pts-label{font-size:.7rem;color:var(--muted);text-align:right}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.72rem;font-weight:600;letter-spacing:.04em}
+.pill.exact{background:rgba(34,197,94,.15);color:var(--green)}
+.pill.result{background:rgba(59,130,246,.15);color:var(--accent2)}
+.pill.pending{background:rgba(255,255,255,.07);color:var(--muted)}
+.pill.bonus{background:rgba(232,200,74,.15);color:var(--accent)}
+.participant-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.participant-row:last-child{border:none}
+.avatar{width:34px;height:34px;border-radius:50%;background:rgba(232,200,74,.15);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.9rem;color:var(--accent);flex-shrink:0}
+.section-divider{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1.5rem 0 .75rem;padding-bottom:4px;border-bottom:1px solid var(--border2)}
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:.75rem 1.5rem;font-size:.9rem;color:var(--text);pointer-events:none;opacity:0;transition:opacity .3s;z-index:99;white-space:nowrap}
+.toast.show{opacity:1}
+.empty{text-align:center;color:var(--muted);padding:2.5rem 0;font-size:.95rem}
+.loading{text-align:center;color:var(--muted);padding:1.5rem 0;font-size:.9rem}
+.admin-warn{background:rgba(232,200,74,.08);border:1px solid rgba(232,200,74,.25);border-radius:8px;padding:.75rem 1rem;font-size:.85rem;color:var(--accent);margin-bottom:1rem}
+.team-select{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:8px 10px;color:var(--text);font-size:.85rem;font-family:'Barlow',sans-serif;width:100%}
+.bracket-slot{display:flex;align-items:center;gap:8px;padding:8px;background:var(--surface2);border-radius:8px;margin-bottom:6px}
+.bracket-slot select{flex:1}
+.points-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:8px}
+.points-table th{color:var(--muted);font-weight:500;padding:5px 8px;text-align:center;border-bottom:1px solid var(--border)}
+.points-table td{padding:6px 8px;text-align:center;border-bottom:1px solid var(--border)}
+.points-table td.left{text-align:left;font-weight:500}
+@media(max-width:480px){
+  .match-row{grid-template-columns:1fr 46px 18px 46px 1fr;gap:4px}
+  .score-box{width:46px}
+  .team-name{font-size:.78rem}
+}
+</style>
+</head>
+<body>
+
+<div class="hero hero-deco">
+  <span class="hero-trophy">&#127942;</span>
+  <div class="hero-title">Polla <span>Eliminatorias</span> 2026</div>
+  <div class="hero-sub">Octavos &middot; Cuartos &middot; Semis &middot; Final</div>
+  <div class="api-banner" id="api-config" style="display:none">
+    Configura tu Google Apps Script URL:
+    <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/AKfycbxWL52sR3bE6PYYMg8qs8uYW_bnzPcFGkKYYYjR9OECj7IggUyhbVQiDvJBVZGzLuAyAw/exec">
+    <button onclick="setApiUrl()">Guardar</button>
+  </div>
+</div>
+
+<div class="pozo-banner" id="pozo-banner">
+  <div class="pozo-sub">Pozo eliminatorias</div>
+  <div class="pozo-amount" id="pozo-amount">$ 0</div>
+  <div class="pozo-dist">
+    🥇 <span id="pozo-1">$0</span> &nbsp;&middot;&nbsp;
+    🥈 <span id="pozo-2">$0</span> &nbsp;&middot;&nbsp;
+    🥉 <span id="pozo-3">$0</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('pronosticos')">📋 Pronósticos</button>
+  <button class="tab" onclick="switchTab('registro')">✚ Registrarse</button>
+  <button class="tab" onclick="switchTab('resultados')">🏆 Resultados</button>
+  <button class="tab" onclick="switchTab('howto')">ℹ️ Cómo jugar</button>
+  <button class="tab" onclick="switchTab('admin')">⚙️ Admin</button>
+</div>
+
+<div class="container">
+
+  <!-- REGISTRO -->
+  <div id="view-registro" class="view">
+    <div class="card">
+      <div class="card-title">Crear cuenta</div>
+      <div style="background:rgba(232,200,74,.08);border:1px solid rgba(232,200,74,.2);border-radius:8px;padding:8px 12px;font-size:.82rem;color:var(--accent);margin-bottom:12px">Tu cuenta quedará pendiente hasta que el administrador la apruebe</div>
+      <div style="margin-bottom:12px">
+        <label>Tu nombre</label>
+        <input type="text" id="reg-name" placeholder="Ej: Juan Pérez" maxlength="30">
+      </div>
+      <div style="margin-bottom:12px">
+        <label>Elige un PIN de 4 dígitos</label>
+        <input type="password" id="reg-pin" placeholder="••••" maxlength="4" inputmode="numeric" style="letter-spacing:.3em;font-size:1.3rem">
+      </div>
+      <button class="btn primary full" onclick="registerParticipant()">Unirme →</button>
+    </div>
+    <div id="participants-list"><p class="loading">Cargando participantes...</p></div>
+  </div>
+
+  <!-- PRONÓSTICOS -->
+  <div id="view-pronosticos" class="view active">
+    <div class="card" style="margin-bottom:1rem;background:rgba(232,200,74,.05);border-color:rgba(232,200,74,.2)">
+      <p style="font-size:.85rem;color:var(--muted);line-height:1.5">
+        🎯 Puntos crecientes por ronda &nbsp;&middot;&nbsp;
+        <strong style="color:var(--text)">+10 pts</strong> si aciertas el campeón &nbsp;&middot;&nbsp;
+        <strong style="color:var(--text)">🔒 bloqueo</strong> al pitazo inicial
+      </p>
+      <a href="#" onclick="switchTab('howto')" style="font-size:.8rem;color:var(--accent);text-decoration:none;font-weight:600;display:inline-block;margin-top:6px">Ver instrucciones completas →</a>
+    </div>
+    <div class="card" style="margin-bottom:1rem">
+      <div style="margin-bottom:12px">
+        <label>Selecciona tu nombre</label>
+        <select id="pronostico-user" onchange="clearPinValidation()">
+          <option value="">— Elige tu nombre —</option>
+        </select>
+      </div>
+      <div style="margin-bottom:12px">
+        <label>Tu PIN</label>
+        <input type="password" id="prono-pin" placeholder="••••" maxlength="4" inputmode="numeric" style="letter-spacing:.3em;font-size:1.3rem">
+      </div>
+      <button class="btn primary full" onclick="validateAndLoadForm()">Entrar →</button>
+      <div id="pin-error" style="display:none;color:#ef4444;font-size:.82rem;margin-top:8px;text-align:center"></div>
+      <p style="text-align:center;margin-top:14px;font-size:.83rem;color:var(--muted)">¿No tienes cuenta? <a href="#" onclick="switchTab('registro')" style="color:var(--accent);text-decoration:none;font-weight:600">Regístrate aquí</a></p>
+    </div>
+
+    <div id="champion-section" style="display:none"></div>
+
+    <div id="bracket-status" style="display:none" class="card">
+      <p class="empty" style="padding:1rem 0">El administrador aún no ha definido el bracket de Dieciseisavos. Vuelve más tarde.</p>
+    </div>
+
+    <div id="matches-form"></div>
+    <div id="save-prono-btn" style="display:none">
+      <button id="save-prono-btn-inner" class="btn primary full" onclick="savePronosticos()">Guardar pronósticos →</button>
+    </div>
+  </div>
+
+  <!-- RESULTADOS -->
+  <div id="view-resultados" class="view">
+    <div id="leaderboard"></div>
+  </div>
+
+  <!-- CÓMO JUGAR -->
+  <div id="view-howto" class="view">
+    <div class="card">
+      <div class="card-title">¿Cómo funciona la fase eliminatoria?</div>
+      <p style="font-size:.9rem;color:var(--muted);margin-bottom:1rem">Esta polla es independiente de la fase de grupos. Pronostica los resultados de cada ronda eliminatoria y el campeón del Mundial 2026.</p>
+
+      <div style="border-left:3px solid var(--accent);padding-left:12px;margin-bottom:1.2rem">
+        <p style="font-size:.95rem;font-weight:600;margin-bottom:4px">1. Crea tu cuenta</p>
+        <p style="font-size:.85rem;color:var(--muted)">Aunque hayas participado en la fase de grupos, debes registrarte de nuevo aquí. Ve a <strong style="color:var(--text)">✚ Registrarse</strong> e ingresa tu nombre y un PIN de 4 dígitos. Tu cuenta quedará pendiente hasta que el administrador la apruebe.</p>
+      </div>
+
+      <div style="border-left:3px solid var(--accent);padding-left:12px;margin-bottom:1.2rem">
+        <p style="font-size:.95rem;font-weight:600;margin-bottom:4px">2. Pronostica al campeón</p>
+        <p style="font-size:.85rem;color:var(--muted)">Antes de que comience Dieciseisavos, elige quién crees que será el campeón del Mundial. Si aciertas, ganas <strong style="color:var(--accent)">+10 puntos extra</strong>. Una vez que comience el primer partido de eliminatorias, no podrás cambiarlo.</p>
+      </div>
+
+      <div style="border-left:3px solid var(--accent);padding-left:12px;margin-bottom:1.2rem">
+        <p style="font-size:.95rem;font-weight:600;margin-bottom:4px">3. Pronostica cada ronda</p>
+        <p style="font-size:.85rem;color:var(--muted)">El administrador define qué equipos avanzan tras cada ronda. Cuando estén los enfrentamientos, podrás ingresar tu pronóstico para esa ronda específica. Se considera el resultado al final del alargue (120 minutos). Los penales no afectan el puntaje.</p>
+      </div>
+
+      <div style="border-left:3px solid var(--accent);padding-left:12px;margin-bottom:1.2rem">
+        <p style="font-size:.95rem;font-weight:600;margin-bottom:6px">4. Puntos crecientes por ronda</p>
+        <table class="points-table">
+          <thead><tr><th class="left">Ronda</th><th>Exacto</th><th>Resultado</th></tr></thead>
+          <tbody>
+            <tr><td class="left">Octavos</td><td><span class="pill exact">+4</span></td><td><span class="pill result">+2</span></td></tr>
+            <tr><td class="left">Cuartos</td><td><span class="pill exact">+5</span></td><td><span class="pill result">+2</span></td></tr>
+            <tr><td class="left">Semifinal</td><td><span class="pill exact">+6</span></td><td><span class="pill result">+3</span></td></tr>
+            <tr><td class="left">Final</td><td><span class="pill exact">+8</span></td><td><span class="pill result">+4</span></td></tr>
+            <tr><td class="left">Campeón</td><td colspan="2"><span class="pill bonus">+10 bonus</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="border-left:3px solid var(--accent);padding-left:12px;margin-bottom:1.2rem">
+        <p style="font-size:.95rem;font-weight:600;margin-bottom:4px">5. Cuota y premios</p>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:8px">La cuota de participación es de <strong id="howto-cuota" style="color:var(--accent);font-size:1rem">$ 15.000</strong> por jugador.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div style="background:rgba(232,200,74,.1);border:1px solid rgba(232,200,74,.25);border-radius:8px;padding:8px 12px;flex:1;min-width:80px;text-align:center">
+            <div style="font-size:1.3rem">🥇</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:var(--accent)">60%</div>
+            <div style="font-size:.72rem;color:var(--muted)" id="howto-prize-1-amt"></div>
+          </div>
+          <div style="background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.2);border-radius:8px;padding:8px 12px;flex:1;min-width:80px;text-align:center">
+            <div style="font-size:1.3rem">🥈</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:#94a3b8">30%</div>
+            <div style="font-size:.72rem;color:var(--muted)" id="howto-prize-2-amt"></div>
+          </div>
+          <div style="background:rgba(205,124,61,.08);border:1px solid rgba(205,124,61,.2);border-radius:8px;padding:8px 12px;flex:1;min-width:80px;text-align:center">
+            <div style="font-size:1.3rem">🥉</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:#cd7c3d">10%</div>
+            <div style="font-size:.72rem;color:var(--muted)" id="howto-prize-3-amt"></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-left:3px solid var(--accent);padding-left:12px;margin-bottom:1.2rem">
+        <p style="font-size:.95rem;font-weight:600;margin-bottom:4px">6. Empates y desempate</p>
+        <p style="font-size:.85rem;color:var(--muted)">Si dos o más personas terminan con los mismos puntos en un puesto premiado, el premio correspondiente se <strong style="color:var(--text)">divide en partes iguales</strong> entre los empatados.</p>
+      </div>
+
+      <div style="background:rgba(232,200,74,.08);border:1px solid rgba(232,200,74,.2);border-radius:8px;padding:10px 14px;font-size:.83rem;color:var(--accent)">
+        ⚽ ¡Buena suerte en la recta final del Mundial 2026!
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN -->
+  <div id="view-admin" class="view">
+    <div id="admin-login" class="card" style="margin-bottom:1rem">
+      <div class="card-title">Acceso administrador</div>
+      <div style="margin-bottom:12px">
+        <label>Contraseña</label>
+        <input type="password" id="admin-pass-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkAdminPass()">
+      </div>
+      <button class="btn primary full" onclick="checkAdminPass()">Entrar →</button>
+      <div id="admin-pass-error" style="display:none;color:#ef4444;font-size:.82rem;margin-top:8px;text-align:center">Contraseña incorrecta</div>
+    </div>
+    <div id="admin-content" style="display:none">
+      <div class="admin-warn">Solo para el organizador</div>
+
+      <div id="admin-cuota-section" class="card" style="margin-bottom:1rem">
+        <div class="card-title">Cuota de participación</div>
+        <div style="display:flex;gap:10px;align-items:flex-end">
+          <div style="flex:1">
+            <label>Monto por jugador (CLP)</label>
+            <input type="number" id="admin-cuota-input" placeholder="15000" min="0">
+          </div>
+          <button class="btn primary" onclick="saveCuota()" id="admin-cuota-btn" style="margin-bottom:1px">Guardar</button>
+        </div>
+        <p id="admin-cuota-info" style="font-size:.8rem;color:var(--muted);margin-top:8px"></p>
+      </div>
+
+      <div id="admin-approvals" style="margin-bottom:1rem"></div>
+
+
+
+
+      <div id="admin-results-section"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ALL_TEAMS = [
+  'México','Corea del Sur','Sudáfrica','República Checa',
+  'Canadá','Suiza','Qatar','Bosnia y Herzegovina',
+  'Brasil','Marruecos','Escocia','Haití',
+  'USA','Australia','Paraguay','Turquía',
+  'Alemania','Ecuador','Costa de Marfil','Curazao',
+  'Países Bajos','Japón','Túnez','Suecia',
+  'Bélgica','Irán','Egipto','Nueva Zelanda',
+  'España','Uruguay','Arabia Saudita','Cabo Verde',
+  'Francia','Senegal','Noruega','Irak',
+  'Argentina','Austria','Argelia','Jordania',
+  'Portugal','Colombia','Uzbekistán','RD Congo',
+  'Inglaterra','Croacia','Panamá','Ghana'
+];
+
+const FLAGS = {
+  'México':'mx','Corea del Sur':'kr','Sudáfrica':'za','República Checa':'cz',
+  'Canadá':'ca','Suiza':'ch','Qatar':'qa','Bosnia y Herzegovina':'ba',
+  'Brasil':'br','Marruecos':'ma','Escocia':'gb-sct','Haití':'ht',
+  'USA':'us','Australia':'au','Paraguay':'py','Turquía':'tr',
+  'Alemania':'de','Ecuador':'ec','Costa de Marfil':'ci','Curazao':'cw',
+  'Países Bajos':'nl','Japón':'jp','Túnez':'tn','Suecia':'se',
+  'Bélgica':'be','Irán':'ir','Egipto':'eg','Nueva Zelanda':'nz',
+  'España':'es','Uruguay':'uy','Arabia Saudita':'sa','Cabo Verde':'cv',
+  'Francia':'fr','Senegal':'sn','Noruega':'no','Irak':'iq',
+  'Argentina':'ar','Austria':'at','Argelia':'dz','Jordania':'jo',
+  'Portugal':'pt','Colombia':'co','Uzbekistán':'uz','RD Congo':'cd',
+  'Inglaterra':'gb-eng','Croacia':'hr','Panamá':'pa','Ghana':'gh',
+};
+
+function f(t){
+  const code = FLAGS[t];
+  if(!code) return '<span style="font-size:1rem">🏳</span>';
+  return '<img src="https://flagcdn.com/20x15/'+code+'.png" width="20" height="15" alt="'+t+'" style="border-radius:2px;vertical-align:middle;margin-right:3px">';
+}
+
+const ROUNDS = [
+  {id:'r8',    name:'Octavos',              exact:4, result:2},
+  {id:'r4',    name:'Cuartos',              exact:5, result:2},
+  {id:'r2',    name:'Semifinal',            exact:6, result:3},
+  {id:'r3',    name:'Tercer y cuarto lugar',exact:4, result:2},
+  {id:'final', name:'Final',                exact:8, result:4},
+];
+const CHAMPION_BONUS = 10;
+
+let API_URL = localStorage.getItem('elim_api_url') || '';
+
+function setApiUrl(){
+  const v = document.getElementById('api-url-input').value.trim();
+  if(!v){toast('Pega la URL primero');return;}
+  API_URL = v;
+  localStorage.setItem('elim_api_url', v);
+  document.getElementById('api-config').style.display='none';
+  toast('URL guardada ✓');
+  loadAll();
+}
+
+async function apiGet(){
+  if(!API_URL) return null;
+  try{
+    const r = await fetch(API_URL+'?action=getAll', {redirect:'follow'});
+    return await r.json();
+  }catch(e){return null;}
+}
+
+async function apiPost(body){
+  console.log('apiPost body:', JSON.stringify(body));
+  if(!API_URL){toast('Configura la URL de Apps Script primero');return null;}
+  try{
+    const params = new URLSearchParams();
+    for(const [k,v] of Object.entries(body)){
+      params.append(k, typeof v === 'object' ? JSON.stringify(v) : v);
+    }
+    const r = await fetch(API_URL+'?'+params.toString(), {redirect:'follow'});
+    return await r.json();
+  }catch(e){toast('Error de conexión');return null;}
+}
+
+// Partidos hardcodeados con fechas en hora Chile (CLT = UTC-4)
+const MATCHES_R8 = [
+  {id:'p89', round:'r8',    home:'Paraguay',   away:'Francia',    kickoff:'2026-07-04T17:00:00-04:00', venue:'Estadio Filadelfia'},
+  {id:'p90', round:'r8',    home:'Canadá',     away:'Marruecos',  kickoff:'2026-07-04T13:00:00-04:00', venue:'Estadio Houston'},
+  {id:'p91', round:'r8',    home:'Brasil',     away:'Noruega',    kickoff:'2026-07-05T16:00:00-04:00', venue:'Estadio Nueva York'},
+  {id:'p92', round:'r8',    home:'México',     away:'Inglaterra', kickoff:'2026-07-05T20:00:00-04:00', venue:'Estadio Ciudad de México'},
+  {id:'p93', round:'r8',    home:'Portugal',   away:'España',     kickoff:'2026-07-06T15:00:00-04:00', venue:'Estadio Dallas'},
+  {id:'p94', round:'r8',    home:'USA',        away:'Bélgica',    kickoff:'2026-07-06T20:00:00-04:00', venue:'Estadio Seattle'},
+  {id:'p95', round:'r8',    home:'Argentina',  away:'Egipto',     kickoff:'2026-07-07T12:00:00-04:00', venue:'Estadio Atlanta'},
+  {id:'p96', round:'r8',    home:'Suiza',      away:'Colombia',   kickoff:'2026-07-07T16:00:00-04:00', venue:'Estadio Vancouver'},
+];
+const MATCHES_R4 = [
+  {id:'p97', round:'r4',  home:'', away:'', kickoff:'2026-07-09T16:00:00-04:00', venue:'Estadio Boston',      hint:'G.P89 vs G.P90'},
+  {id:'p98', round:'r4',  home:'', away:'', kickoff:'2026-07-10T15:00:00-04:00', venue:'Estadio Los Ángeles', hint:'G.P93 vs G.P94'},
+  {id:'p99', round:'r4',  home:'', away:'', kickoff:'2026-07-11T17:00:00-04:00', venue:'Estadio Miami',       hint:'G.P91 vs G.P92'},
+  {id:'p100',round:'r4',  home:'', away:'', kickoff:'2026-07-11T21:00:00-04:00', venue:'Estadio Kansas City', hint:'G.P95 vs G.P96'},
+];
+const MATCHES_R2 = [
+  {id:'p101',round:'r2',  home:'', away:'', kickoff:'2026-07-14T15:00:00-04:00', venue:'Estadio Dallas',      hint:'G.P97 vs G.P98'},
+  {id:'p102',round:'r2',  home:'', away:'', kickoff:'2026-07-15T15:00:00-04:00', venue:'Estadio Atlanta',     hint:'G.P99 vs G.P100'},
+];
+const MATCHES_R3 = [
+  {id:'p103',round:'r3',  home:'', away:'', kickoff:'2026-07-18T17:00:00-04:00', venue:'Estadio Miami',       hint:'P.P101 vs P.P102'},
+];
+const MATCHES_FINAL = [
+  {id:'p104',round:'final',home:'', away:'', kickoff:'2026-07-19T15:00:00-04:00', venue:'Estadio Nueva York',  hint:'G.P101 vs G.P102'},
+];
+
+function getAllMatches(){
+  return [...MATCHES_R8, ...MATCHES_R4, ...MATCHES_R2, ...MATCHES_R3, ...MATCHES_FINAL];
+}
+
+let state = {
+  participants:[], pending:[], pronosticos:{}, results:{}, comments:[],
+  cuota:15000, totalPozo:0, bracket:{}, champions:{}, advancers:{}
+};
+
+async function loadAll(){
+  const data = await apiGet();
+  if(data && !data.error){ state = {...state, ...data}; }
+  renderAll();
+}
+
+function renderAll(){
+  updatePozoBanner();
+  renderParticipants();
+  updateSelects();
+  if(document.getElementById('view-resultados').classList.contains('active')){
+    renderLeaderboard();
+  }
+  if(document.getElementById('view-admin').classList.contains('active')){
+    renderAdminBracket();
+  }
+}
+
+function formatPesos(n){ return '$ ' + Math.round(n).toLocaleString('es-CL'); }
+
+function updatePozoBanner(){
+  const total = state.totalPozo || 0;
+  const cuota = state.cuota || 15000;
+  document.getElementById('pozo-amount').textContent = formatPesos(total);
+  document.getElementById('pozo-1').textContent = formatPesos(total * 0.6);
+  document.getElementById('pozo-2').textContent = formatPesos(total * 0.3);
+  document.getElementById('pozo-3').textContent = formatPesos(total * 0.1);
+  const howCuota = document.getElementById('howto-cuota');
+  if(howCuota) howCuota.textContent = formatPesos(cuota);
+  const p1 = document.getElementById('howto-prize-1-amt');
+  const p2 = document.getElementById('howto-prize-2-amt');
+  const p3 = document.getElementById('howto-prize-3-amt');
+  if(p1) p1.textContent = total > 0 ? formatPesos(total*0.6) : '';
+  if(p2) p2.textContent = total > 0 ? formatPesos(total*0.3) : '';
+  if(p3) p3.textContent = total > 0 ? formatPesos(total*0.1) : '';
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const btn = document.querySelector("[onclick=\"switchTab('"+tab+"')\"]");
+  if(btn) btn.classList.add('active');
+  document.getElementById('view-'+tab).classList.add('active');
+  if(tab==='resultados'){renderLeaderboard();}
+  if(tab==='admin'){ if(sessionStorage.getItem('adminOkElim')==='1') showAdminContent(); }
+  if(tab==='pronosticos'){updateSelects();clearPinValidation();}
+  if(tab==='registro'){renderParticipants();}
+}
+
+function renderParticipants(){
+  const c = document.getElementById('participants-list');
+  if(!state.participants.length){
+    c.innerHTML='<p class="empty">Aún no hay participantes</p>';return;
+  }
+  c.innerHTML='<div class="card"><div class="card-title">Participantes ('+state.participants.length+')</div>'+
+    state.participants.map(p=>`
+    <div class="participant-row">
+      <div class="avatar">${p.substring(0,2).toUpperCase()}</div>
+      <span style="flex:1;font-weight:500">${p}</span>
+      ${state.pending && state.pending.includes(p)
+        ? '<span class="pill" style="background:rgba(239,68,68,.15);color:#ef4444">Pendiente aprobación</span>'
+        : '<span class="pill result">Aprobado</span>'}
+    </div>`).join('')+
+  '</div>';
+}
+
+async function registerParticipant(){
+  const n = document.getElementById('reg-name').value.trim();
+  const pin = document.getElementById('reg-pin').value.trim();
+  if(!n){toast('Ingresa tu nombre');return;}
+  if(!/^[0-9]{4}$/.test(pin)){toast('El PIN debe ser de 4 dígitos');return;}
+  if(state.participants.includes(n)){toast('Ese nombre ya existe');return;}
+  const r = await apiPost({action:'registerParticipant',name:n,pin:pin});
+  if(!r) return;
+  if(r.error){toast(r.error);return;}
+  if(!state.pending) state.pending=[];
+  state.pending.push(n);
+  document.getElementById('reg-name').value='';
+  document.getElementById('reg-pin').value='';
+  renderParticipants();
+  updateSelects();
+  toast('¡'+n+' se unió! 🎉');
+}
+
+function updateSelects(){
+  const sel = document.getElementById('pronostico-user');
+  const cur = sel.value;
+  const approved = state.participants.filter(p => !state.pending || !state.pending.includes(p));
+  sel.innerHTML='<option value="">— Elige tu nombre —</option>'+
+    approved.map(p=>`<option value="${p}"${p===cur?' selected':''}>${p}</option>`).join('');
+}
+
+function clearPinValidation(){
+  document.getElementById('matches-form').innerHTML='';
+  document.getElementById('champion-section').style.display='none';
+  document.getElementById('bracket-status').style.display='none';
+  document.getElementById('save-prono-btn').style.display='none';
+  document.getElementById('pin-error').style.display='none';
+  sessionStorage.removeItem('pronoUser');
+}
+
+async function validateAndLoadForm(){
+  const user = document.getElementById('pronostico-user').value;
+  const pin = document.getElementById('prono-pin').value.trim();
+  const errEl = document.getElementById('pin-error');
+  errEl.style.display='none';
+  if(!user){toast('Selecciona tu nombre');return;}
+  if(!pin){toast('Ingresa tu PIN');return;}
+  const r = await apiPost({action:'validatePin',name:user,pin:pin});
+  if(!r) return;
+  if(r.error || !r.ok){
+    errEl.textContent = (r && r.error) ? r.error : 'PIN incorrecto. Intenta de nuevo.';
+    errEl.style.display='block';
+    return;
+  }
+  sessionStorage.setItem('pronoUser', user);
+  sessionStorage.setItem('pronoPin', pin);
+  loadChampionPicker(user);
+  loadUserForm(user);
+}
+
+function bracketStarted(){
+  return MATCHES_R8.some(m => m.kickoff && new Date() >= new Date(m.kickoff));
+}
+
+function loadChampionPicker(user){
+  const sec = document.getElementById('champion-section');
+  sec.style.display='block';
+  const locked = bracketStarted();
+  const current = state.champions && state.champions[user];
+  const r8teams = MATCHES_R8.reduce((acc,m)=>{if(m.home)acc.push(m.home);if(m.away)acc.push(m.away);return acc;},[]);
+
+  let html = '<div class="card" style="border-color:rgba(232,200,74,.3)">';
+  html += '<div class="card-title">🏆 ¿Quién será el campeón?</div>';
+  if(locked){
+    html += '<p style="font-size:.85rem;color:var(--muted)">Tu pronóstico: <strong style="color:var(--accent)">'+(current?f(current)+' '+current:'No pronosticaste')+'</strong></p>';
+    html += '<p style="font-size:.75rem;color:#ef4444;margin-top:6px">El torneo ya comenzó, no puedes modificarlo</p>';
+  } else {
+    html += '<select id="champion-select" class="team-select">';
+    html += '<option value="">— Selecciona un equipo —</option>';
+    [...r8teams].sort((a,b)=>a.localeCompare(b)).forEach(t=>{
+      html += '<option value="'+t+'"'+(current===t?' selected':'')+'>'+t+'</option>';
+    });
+    html += '</select>';
+    html += '<button class="btn primary full" onclick="saveChampion()" style="margin-top:10px">Guardar pronóstico de campeón →</button>';
+  }
+  html += '</div>';
+  sec.innerHTML = html;
+}
+
+async function saveChampion(){
+  const user = sessionStorage.getItem('pronoUser');
+  const pin = sessionStorage.getItem('pronoPin');
+  const team = document.getElementById('champion-select').value;
+  if(!team){toast('Selecciona un equipo');return;}
+  const r = await apiPost({action:'saveChampion', user, pin, team});
+  if(!r) return;
+  if(r.error){toast(r.error);return;}
+  if(!state.champions) state.champions={};
+  state.champions[user]=team;
+  toast('Pronóstico de campeón guardado: '+team+' ✓');
+  loadChampionPicker(user);
+}
+
+function isLocked(m){
+  return m.kickoff && new Date() >= new Date(m.kickoff);
+}
+
+function fmtKickoff(m){
+  if(!m.kickoff) return 'Fecha por confirmar';
+  const d = new Date(m.kickoff);
+  const dias = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const dia = dias[d.getDay()];
+  const fecha = d.getDate()+' '+meses[d.getMonth()];
+  const hora = d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+  return dia+' '+fecha+' - '+hora+' hrs Chile';
+}
+
+function getRoundInfo(roundId){
+  return ROUNDS.find(r=>r.id===roundId) || ROUNDS[0];
+}
+
+function updateCheck(matchId){
+  const h=document.getElementById('h'+matchId);
+  const a=document.getElementById('a'+matchId);
+  const check=document.getElementById('check'+matchId);
+  if(!check) return;
+  if(h&&a&&h.value!==''&&a.value!==''){
+    check.textContent='✏️';
+    check.style.fontSize='1rem';
+  } else {
+    check.textContent='—';
+    check.style.fontSize='.8rem';
+  }
+}
+
+function getMatchesWithTeams(){
+  const adv = state.advancers || {};
+  return getAllMatches().map(m=>{
+    const home = m.home || adv[m.id+'_home'] || '';
+    const away = m.away || adv[m.id+'_away'] || '';
+    return {...m, home, away};
+  });
+}
+
+function loadUserForm(user){
+  const form = document.getElementById('matches-form');
+  const btn = document.getElementById('save-prono-btn');
+  const statusBox = document.getElementById('bracket-status');
+  statusBox.style.display='none';
+  btn.style.display='block';
+
+  const existing = state.pronosticos[user]||{};
+  const matches = getMatchesWithTeams();
+  let html='';
+
+  const byRound={};
+  matches.forEach(m=>{
+    if(!byRound[m.round]) byRound[m.round]=[];
+    byRound[m.round].push(m);
+  });
+
+  ROUNDS.forEach(round=>{
+    const roundMatches = byRound[round.id] || [];
+    const playable = roundMatches.filter(m=>m.home&&m.away);
+    const pending = roundMatches.filter(m=>!m.home||!m.away);
+    if(!roundMatches.length) return;
+    html += '<div class="round-label">'+round.name+' &nbsp; <span style="color:var(--muted);font-weight:500">('+round.exact+' exacto / '+round.result+' resultado)</span></div>';
+    if(playable.length){
+      html += '<div class="card">';
+      playable.forEach(m=>{
+        const p = existing[m.id] || {h:'',a:''};
+        const locked = isLocked(m);
+        const saved = !!(existing[m.id] && existing[m.id].h!=='' && existing[m.id].a!=='');
+        const rowStyle = locked?'opacity:.45;':'';
+        const lockIcon = locked?'🔒 ':'🕐 ';
+        const timeColor = locked?'#ef4444':'var(--muted)';
+        const dis = locked?'disabled':'';
+        const checkHtml = locked?'':('<span id="check'+m.id+'" style="font-size:'+(saved?'1rem':'.8rem')+';margin-left:6px">'+(saved?'✅':'—')+'</span>');
+        html += '<div class="match-row" style="'+rowStyle+'">';
+        html += '<span class="team-name right">'+f(m.home)+' '+m.home+'</span>';
+        html += '<div class="score-box"><input type="number" min="0" max="20" id="h'+m.id+'" value="'+p.h+'" placeholder="?" '+dis+' oninput="updateCheck(this.dataset.mid)" data-mid="'+m.id+'"></div>';
+        html += '<span class="vs">-</span>';
+        html += '<div class="score-box"><input type="number" min="0" max="20" id="a'+m.id+'" value="'+p.a+'" placeholder="?" '+dis+' oninput="updateCheck(this.dataset.mid)" data-mid="'+m.id+'"></div>';
+        html += '<span class="team-name">'+f(m.away)+' '+m.away+'</span>';
+        html += '</div>';
+        html += '<div style="display:flex;align-items:center;justify-content:space-between;font-size:.7rem;padding:2px 0 7px;border-bottom:1px solid var(--border)"><span style="color:'+timeColor+'">'+lockIcon+fmtKickoff(m)+(m.venue?' · '+m.venue:'')+'</span>'+checkHtml+'</div>';
+      });
+      html += '</div>';
+    }
+    if(pending.length){
+      pending.forEach(m=>{
+        const hint = m.hint || 'Por definir';
+        html += '<div class="card" style="opacity:.5"><p style="font-size:.82rem;color:var(--muted);text-align:center;padding:.5rem 0">⏳ '+hint+' · '+fmtKickoff(m)+(m.venue?' · '+m.venue:'')+'</p></div>';
+      });
+    }
+  });
+
+  form.innerHTML = html || '<p class="empty">No hay partidos disponibles aún</p>';
+}
+
+async function savePronosticos(){
+  const btn = document.getElementById('save-prono-btn-inner');
+  const resetBtn = () => { if(btn){ btn.disabled=false; btn.textContent='Guardar pronósticos →'; } };
+  if(btn){ btn.disabled=true; btn.textContent='Guardando...'; }
+
+  const user = document.getElementById('pronostico-user').value;
+  if(!user){ resetBtn(); return; }
+
+  const matches = getMatchesWithTeams();
+  const data={};
+  matches.forEach(m=>{
+    const h=document.getElementById('h'+m.id);
+    const a=document.getElementById('a'+m.id);
+    if(h&&a&&h.value!==''&&a.value!=='')
+      data[m.id]={h:parseInt(h.value),a:parseInt(a.value)};
+  });
+  if(!Object.keys(data).length){
+    resetBtn();
+    toast('Ingresa al menos un partido');return;
+  }
+  const pin = sessionStorage.getItem('pronoPin') || document.getElementById('prono-pin').value.trim();
+  const r = await apiPost({action:'savePronosticos',user,pin,pronosticos:data});
+  resetBtn();
+  if(!r) return;
+  if(r.error){toast(r.error);return;}
+  state.pronosticos[user]=data;
+  Object.keys(data).forEach(id=>{
+    const check=document.getElementById('check'+id);
+    if(check){check.textContent='✅';check.style.fontSize='1rem';}
+  });
+  toast('Pronósticos guardados ✓ ('+Object.keys(data).length+' partidos)');
+}
+
+function calcWinner(h,a){return h>a?'H':h<a?'A':'E';}
+
+function calcScore(user){
+  const prono = state.pronosticos[user]||{};
+  const matches = getMatchesWithTeams();
+  let exact=0, result=0, total=0;
+
+  matches.filter(m=>m.home&&m.away).forEach(m=>{
+    const real = state.results[m.id];
+    const p = prono[m.id];
+    if(!real || !p) return;
+    const round = getRoundInfo(m.round);
+    if(p.h===real.h && p.a===real.a){ exact++; total += round.exact; }
+    else if(calcWinner(p.h,p.a)===calcWinner(real.h,real.a)){ result++; total += round.result; }
+  });
+
+  let championBonus = 0;
+  if(state.champions && state.champions[user] && state.finalChampion){
+    if(state.champions[user] === state.finalChampion) championBonus = CHAMPION_BONUS;
+  }
+  total += championBonus;
+
+  return {exact, result, championBonus, total};
+}
+
+function renderLeaderboard(){
+  const c = document.getElementById('leaderboard');
+  if(!state.participants.length){c.innerHTML='<p class="empty">Aún no hay participantes</p>';return;}
+  const approved = state.participants.filter(p => !state.pending || !state.pending.includes(p));
+  const scores = approved.map(p=>({name:p, ...calcScore(p)}));
+  scores.sort((a,b)=>b.total-a.total);
+
+  c.innerHTML = '<div class="card">'+
+    '<div class="card-title">Tabla de posiciones</div>'+
+    scores.map((s,i)=>`
+    <div class="leader-row">
+      <div class="rank-num ${i===0?'gold':i===1?'silver':i===2?'bronze':''}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
+      <div>
+        <div class="player-name">${s.name}</div>
+        <div class="player-sub"><span class="pill exact">${s.exact} exactos</span>&nbsp;<span class="pill result">${s.result} resultados</span>${s.championBonus>0?'&nbsp;<span class="pill bonus">+'+s.championBonus+' campeón</span>':''}${i<3?'&nbsp;<span style="font-size:.75rem;color:var(--accent);font-weight:600">'+formatPesos(state.totalPozo*(i===0?.6:i===1?.3:.1))+'</span>':''}</div>
+      </div>
+      <div>
+        <div class="pts-num">${s.total}</div>
+        <div class="pts-label">PTS</div>
+      </div>
+    </div>`).join('')+
+  '</div>';
+}
+
+const ADMIN_PASSWORD = 'eliminatorias2026';
+
+function checkAdminPass(){
+  const val = document.getElementById('admin-pass-input').value;
+  if(val === ADMIN_PASSWORD){
+    sessionStorage.setItem('adminOkElim','1');
+    showAdminContent();
+  } else {
+    document.getElementById('admin-pass-error').style.display='block';
+    document.getElementById('admin-pass-input').value='';
+  }
+}
+
+function showAdminContent(){
+  document.getElementById('admin-login').style.display='none';
+  document.getElementById('admin-content').style.display='block';
+  renderAdminCuota();
+  renderApprovals();
+  renderAdminResults();
+}
+
+function renderAdminCuota(){
+  const input = document.getElementById('admin-cuota-input');
+  const btn = document.getElementById('admin-cuota-btn');
+  const info = document.getElementById('admin-cuota-info');
+  if(!input) return;
+  input.value = state.cuota || 15000;
+  const started = bracketStarted();
+  if(started){
+    input.disabled = true; btn.disabled = true; btn.style.opacity = '.5';
+    info.textContent = 'El torneo eliminatorio ya comenzó, la cuota no puede modificarse';
+    info.style.color = '#ef4444';
+  } else {
+    input.disabled = false; btn.disabled = false; btn.style.opacity = '1';
+    const approved = state.participants.filter(p => !state.pending || !state.pending.includes(p)).length;
+    const total = (state.cuota||15000) * approved;
+    info.textContent = approved + ' jugadores aprobados · Pozo actual: ' + formatPesos(total);
+    info.style.color = 'var(--muted)';
+  }
+}
+
+async function saveCuota(){
+  const val = parseInt(document.getElementById('admin-cuota-input').value);
+  if(!val || val < 0){toast('Ingresa un monto válido');return;}
+  const r = await apiPost({action:'saveCuota', cuota: val});
+  if(!r) return;
+  state.cuota = val;
+  const approved = state.participants.filter(p => !state.pending || !state.pending.includes(p)).length;
+  state.totalPozo = val * approved;
+  updatePozoBanner();
+  renderAdminCuota();
+  toast('Cuota actualizada a ' + formatPesos(val) + ' ✓');
+}
+
+function renderApprovals(){
+  const c = document.getElementById('admin-approvals');
+  const pending = state.pending || [];
+  if(!pending.length){
+    c.innerHTML='<div class="card" style="margin-bottom:10px"><p style="font-size:.88rem;color:var(--muted)">No hay cuentas pendientes de aprobación</p></div>';
+    return;
+  }
+  let html = '<div class="card" style="margin-bottom:10px"><div class="card-title">Cuentas pendientes ('+pending.length+')</div>';
+  pending.forEach(p => {
+    html += '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">';
+    html += '<div class="avatar">'+p.substring(0,2).toUpperCase()+'</div>';
+    html += '<span style="flex:1;font-weight:500">'+p+'</span>';
+    html += '<button class="btn" style="padding:5px 12px;font-size:.8rem;color:var(--green);border-color:var(--green)" onclick="approveUser(this.dataset.name)" data-name="'+p+'">Aprobar</button>';
+    html += '<button class="btn" style="padding:5px 12px;font-size:.8rem;color:#ef4444;border-color:#ef4444;margin-left:4px" onclick="rejectUser(this.dataset.name)" data-name="'+p+'">Rechazar</button>';
+    html += '</div>';
+  });
+  html += '</div>';
+  c.innerHTML = html;
+}
+
+async function approveUser(name){
+  const r = await apiPost({action:'approveUser', name, approved:'true'});
+  if(!r) return;
+  if(r.error){toast(r.error);return;}
+  state.pending = (state.pending||[]).filter(p=>p!==name);
+  if(!state.participants.includes(name)) state.participants.push(name);
+  const approved = state.participants.filter(p => !state.pending || !state.pending.includes(p)).length;
+  state.totalPozo = (state.cuota||15000) * approved;
+  updatePozoBanner();
+  renderAdminCuota();
+  renderApprovals();
+  renderParticipants();
+  updateSelects();
+  toast(name+' aprobado ✓');
+}
+
+async function rejectUser(name){
+  if(!confirm('¿Rechazar y eliminar a '+name+'?')) return;
+  const r = await apiPost({action:'approveUser', name, approved:'false'});
+  if(!r) return;
+  if(r.error){toast(r.error);return;}
+  state.pending = (state.pending||[]).filter(p=>p!==name);
+  renderApprovals();
+  renderParticipants();
+  toast(name+' rechazado');
+}
+
+function renderAdminBracket(){
+  const c = document.getElementById('bracket-builder');
+  if(!c) return;
+  const saved = (state.bracket && state.bracket.teams) || [];
+  let html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+  for(let i=0;i<16;i++){
+    html += '<div class="bracket-slot">';
+    html += '<span style="font-size:.75rem;color:var(--muted);min-width:20px">'+(i+1)+'.</span>';
+    html += '<select id="bracket-slot-'+i+'" class="team-select">';
+    html += '<option value="">— Elige equipo —</option>';
+    [...ALL_TEAMS].sort((a,b)=>a.localeCompare(b)).forEach(t=>{
+      html += '<option value="'+t+'"'+(saved[i]===t?' selected':'')+'>'+t+'</option>';
+    });
+    html += '</select></div>';
+  }
+  html += '</div>';
+  c.innerHTML = html;
+
+  if(state.bracket && state.bracket.matches && state.bracket.matches.length){
+    c.innerHTML += '<p style="font-size:.78rem;color:var(--green);margin-top:10px">Bracket ya definido con '+state.bracket.matches.length+' partidos de Dieciseisavos</p>';
+  }
+}
+
+async function saveBracket(){
+  const teams = [];
+  for(let i=0;i<16;i++){
+    const v = document.getElementById('bracket-slot-'+i).value;
+    if(!v){toast('Completa los 32 equipos antes de guardar');return;}
+    teams.push(v);
+  }
+  if(new Set(teams).size !== 16){toast('Hay equipos repetidos en el bracket');return;}
+
+  const matches = [];
+  for(let i=0;i<32;i+=2){
+    matches.push({
+      id: 'r8_'+(i/2+1),
+      round: 'r8',
+      home: teams[i],
+      away: teams[i+1],
+      kickoff: null
+    });
+  }
+
+  const r = await apiPost({action:'saveBracket', teams: teams, matches: matches});
+  if(!r) return;
+  if(r.error){toast(r.error);return;}
+  renderAdminResults();
+  toast('Bracket guardado ✓');
+}
+
+function renderAdminKickoffs(){
+  const sec = document.getElementById('admin-kickoffs-section');
+  const kb = document.getElementById('kickoff-builder');
+  const matches = (state.bracket && state.bracket.matches) || [];
+  if(!matches.length){ sec.style.display='none'; return; }
+  sec.style.display='block';
+
+  const byRound={};
+  matches.forEach(m=>{ if(!byRound[m.round]) byRound[m.round]=[]; byRound[m.round].push(m); });
+
+  let html = '';
+  ROUNDS.forEach(round=>{
+    const rMatches = byRound[round.id];
+    if(!rMatches) return;
+    html += '<div class="round-label">'+round.name+'</div>';
+    rMatches.forEach(m=>{
+      const current = m.kickoff ? new Date(m.kickoff).toISOString().slice(0,16) : '';
+      html += '<div style="margin-bottom:10px">';
+      html += '<p style="font-size:.82rem;color:var(--muted);margin-bottom:4px">'+f(m.home)+' '+m.home+' vs '+f(m.away)+' '+m.away+'</p>';
+      html += '<div style="display:flex;gap:8px;align-items:center">';
+      html += '<input type="datetime-local" id="ko_'+m.id+'" value="'+current+'" style="flex:1;padding:8px 10px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:.85rem;font-family:Barlow,sans-serif">';
+      html += '<button class="btn primary" style="padding:8px 14px;font-size:.82rem" onclick="saveKickoff(this.dataset.mid)" data-mid="'+m.id+'">Guardar</button>';
+      html += '</div></div>';
+    });
+  });
+  kb.innerHTML = html;
+}
+
+async function saveKickoff(matchId){
+  const input = document.getElementById('ko_'+matchId);
+  if(!input || !input.value){toast('Selecciona una fecha y hora');return;}
+  // Convertir a ISO con offset Chile (UTC-4 en junio/julio)
+  const localDate = new Date(input.value);
+  const isoDate = localDate.toISOString();
+  const r = await apiPost({action:'saveKickoff', matchId, kickoff: isoDate});
+  if(!r) return;
+  if(r.error){toast(r.error);return;}
+  // Actualizar en state
+  if(state.bracket && state.bracket.matches){
+    const m = state.bracket.matches.find(x=>x.id===matchId);
+    if(m) m.kickoff = isoDate;
+  }
+  toast('Fecha guardada ✓');
+}
+
+function renderAdminResults(){
+  const c = document.getElementById('admin-results-section');
+  const matches = getMatchesWithTeams();
+  const adv = state.advancers || {};
+
+  const byRound={};
+  matches.forEach(m=>{ if(!byRound[m.round]) byRound[m.round]=[]; byRound[m.round].push(m); });
+
+  let html = '<div class="card"><div class="card-title">Ingresar resultados y equipos</div>';
+  ROUNDS.forEach(round=>{
+    const rMatches = byRound[round.id] || [];
+    if(!rMatches.length) return;
+    html += '<div class="round-label">'+round.name+'</div>';
+    rMatches.forEach(m=>{
+      const r = state.results[m.id] || {h:'',a:''};
+      html += '<div style="font-size:.72rem;color:var(--muted);margin-bottom:4px">'+fmtKickoff(m)+(m.venue?' · '+m.venue:'')+'</div>';
+      // Si faltan equipos, mostrar selectores
+      if(!m.home || !m.away){
+        const hint = m.hint || '';
+        html += '<p style="font-size:.78rem;color:var(--accent);margin-bottom:6px">'+hint+'</p>';
+        html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">';
+        html += '<select id="adv_home_'+m.id+'" class="team-select" style="font-size:.82rem">';
+        html += '<option value="">— Local —</option>';
+        [...ALL_TEAMS].sort((a,b)=>a.localeCompare(b)).forEach(t=>{
+          html += '<option value="'+t+'"'+(adv[m.id+'_home']===t?' selected':'')+'>'+t+'</option>';
+        });
+        html += '</select>';
+        html += '<select id="adv_away_'+m.id+'" class="team-select" style="font-size:.82rem">';
+        html += '<option value="">— Visita —</option>';
+        [...ALL_TEAMS].sort((a,b)=>a.localeCompare(b)).forEach(t=>{
+          html += '<option value="'+t+'"'+(adv[m.id+'_away']===t?' selected':'')+'>'+t+'</option>';
+        });
+        html += '</select>';
+        html += '</div>';
+        html += '<button class="btn primary" style="width:100%;margin-bottom:10px;padding:6px" id="adv_btn_'+m.id+'" onclick="saveAdvancers(&quot;'+m.id+'&quot;)">Confirmar equipos →</button>';
+      }
+      if(m.home && m.away){
+        html += '<div class="match-row">';
+        html += '<span class="team-name right" style="font-size:.8rem">'+f(m.home)+' '+m.home+'</span>';
+        html += '<div class="score-box"><input type="number" min="0" max="20" id="rh'+m.id+'" value="'+r.h+'" placeholder="—" onchange="saveResult(this.dataset.mid)" data-mid="'+m.id+'"></div>';
+        html += '<span class="vs">-</span>';
+        html += '<div class="score-box"><input type="number" min="0" max="20" id="ra'+m.id+'" value="'+r.a+'" placeholder="—" onchange="saveResult(this.dataset.mid)" data-mid="'+m.id+'"></div>';
+        html += '<span class="team-name" style="font-size:.8rem">'+f(m.away)+' '+m.away+'</span>';
+        html += '</div>';
+      }
+    });
+  });
+
+  html += '<div class="round-label">Campeón del torneo</div>';
+  html += '<select id="final-champion-select" class="team-select">';
+  html += '<option value="">— Selecciona el campeón —</option>';
+  (state.bracket.teams||[]).forEach(t=>{
+    html += '<option value="'+t+'"'+(state.finalChampion===t?' selected':'')+'>'+t+'</option>';
+  });
+  html += '</select>';
+  html += '<button class="btn primary full" onclick="saveFinalChampion()" style="margin-top:8px">Guardar campeón →</button>';
+
+  html += '</div>';
+  c.innerHTML = html;
+}
+
+async function saveAdvancers(matchId){
+  console.log('saveAdvancers llamado con matchId:', matchId);
+  const home = document.getElementById('adv_home_'+matchId).value;
+  const away = document.getElementById('adv_away_'+matchId).value;
+  if(!home||!away){toast('Selecciona ambos equipos');return;}
+  const r = await apiPost({action:'saveAdvancers', matchId, home, away});
+  if(!r) return;
+  if(r.error){toast(r.error);return;}
+  if(!state.advancers) state.advancers={};
+  state.advancers[matchId+'_home']=home;
+  state.advancers[matchId+'_away']=away;
+  renderAdminResults();
+  toast('Equipos confirmados: '+home+' vs '+away+' ✓');
+}
+
+async function saveResult(matchId){
+  const h=document.getElementById('rh'+matchId);
+  const a=document.getElementById('ra'+matchId);
+  if(h.value===''||a.value==='') return;
+  const hv=parseInt(h.value), av=parseInt(a.value);
+  const r=await apiPost({action:'saveResult',matchId,home:hv,away:av});
+  if(!r) return;
+  state.results[matchId]={h:hv,a:av};
+  toast('Resultado guardado ✓');
+}
+
+async function saveFinalChampion(){
+  const team = document.getElementById('final-champion-select').value;
+  if(!team){toast('Selecciona un equipo');return;}
+  const r = await apiPost({action:'saveFinalChampion', team});
+  if(!r) return;
+  if(r.error){toast(r.error);return;}
+  state.finalChampion = team;
+  toast('Campeón guardado: '+team);
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+(async()=>{
+  if(!API_URL){
+    document.getElementById('api-config').style.display='flex';
+    document.getElementById('participants-list').innerHTML='<p class="empty">Configura la URL de Apps Script arriba para comenzar</p>';
+  } else {
+    document.getElementById('api-url-input').value=API_URL;
+    await loadAll();
+  }
+})();
+</script>
+</body>
+</html>
