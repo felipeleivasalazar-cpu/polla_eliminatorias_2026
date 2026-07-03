@@ -1062,6 +1062,26 @@ function toast(msg){
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
+// ── AUTO-LOCK WATCHER ─────────────────────────────────────────
+let lastLockedCount = 0;
+
+function watchKickoffs(){
+  const allMatches = getAllMatches();
+  const lockedNow = allMatches.filter(m => isLocked(m)).length;
+  if(lockedNow !== lastLockedCount){
+    lastLockedCount = lockedNow;
+    const pronoActive = document.getElementById('view-pronosticos').classList.contains('active');
+    const user = sessionStorage.getItem('pronoUser');
+    if(pronoActive && user){
+      loadUserForm(user);
+      loadChampionPicker(user);
+      toast('⏱ Un partido acaba de comenzar — pronóstico bloqueado');
+    }
+  }
+}
+
+setInterval(watchKickoffs, 30000);
+
 (async()=>{
   if(!API_URL){
     document.getElementById('api-config').style.display='flex';
