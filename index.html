@@ -182,7 +182,7 @@ input:focus,select:focus{border-color:var(--accent)}
     <div id="champion-section" style="display:none"></div>
 
     <div id="bracket-status" style="display:none" class="card">
-      <p class="empty" style="padding:1rem 0">El administrador aún no ha definido el bracket de Dieciseisavos. Vuelve más tarde.</p>
+      <p class="empty" style="padding:1rem 0">El administrador aún no ha definido el bracket de Octavos. Vuelve más tarde.</p>
     </div>
 
     <div id="matches-form"></div>
@@ -194,6 +194,7 @@ input:focus,select:focus{border-color:var(--accent)}
   <!-- RESULTADOS -->
   <div id="view-resultados" class="view">
     <div id="leaderboard"></div>
+    <div id="pronosticos-view" style="margin-top:1.5rem"></div>
   </div>
 
   <!-- CÓMO JUGAR -->
@@ -384,7 +385,7 @@ async function apiPost(body){
 
 // Partidos hardcodeados con fechas en hora Chile (CLT = UTC-4)
 const MATCHES_R8 = [
-  {id:'p89', round:'r8',    home:'Paraguay',   away:'Francia',    kickoff:'2026-07-03T16:52:00-04:00', venue:'Estadio Filadelfia'},
+  {id:'p89', round:'r8',    home:'Paraguay',   away:'Francia',    kickoff:'2026-07-04T17:00:00-04:00', venue:'Estadio Filadelfia'},
   {id:'p90', round:'r8',    home:'Canadá',     away:'Marruecos',  kickoff:'2026-07-04T13:00:00-04:00', venue:'Estadio Houston'},
   {id:'p91', round:'r8',    home:'Brasil',     away:'Noruega',    kickoff:'2026-07-05T16:00:00-04:00', venue:'Estadio Nueva York'},
   {id:'p92', round:'r8',    home:'México',     away:'Inglaterra', kickoff:'2026-07-05T20:00:00-04:00', venue:'Estadio Ciudad de México'},
@@ -462,7 +463,7 @@ function switchTab(tab){
   const btn = document.querySelector("[onclick=\"switchTab('"+tab+"')\"]");
   if(btn) btn.classList.add('active');
   document.getElementById('view-'+tab).classList.add('active');
-  if(tab==='resultados'){renderLeaderboard();}
+  if(tab==='resultados'){renderLeaderboard();renderPronosticosView();}
   if(tab==='admin'){ if(sessionStorage.getItem('adminOkElim')==='1') showAdminContent(); }
   if(tab==='pronosticos'){updateSelects();clearPinValidation();}
   if(tab==='registro'){renderParticipants();}
@@ -726,7 +727,7 @@ function calcScore(user){
     const p = prono[m.id];
     if(!real || !p) return;
     const round = getRoundInfo(m.round);
-    if(p.h===real.h && p.a===real.a){ exact++; total += round.exact; }
+    if(p.h===real.h && p.a===real.a){ exact++; result++; total += round.exact; }
     else if(calcWinner(p.h,p.a)===calcWinner(real.h,real.a)){ result++; total += round.result; }
   });
 
@@ -883,7 +884,7 @@ function renderAdminBracket(){
   c.innerHTML = html;
 
   if(state.bracket && state.bracket.matches && state.bracket.matches.length){
-    c.innerHTML += '<p style="font-size:.78rem;color:var(--green);margin-top:10px">Bracket ya definido con '+state.bracket.matches.length+' partidos de Dieciseisavos</p>';
+    c.innerHTML += '<p style="font-size:.78rem;color:var(--green);margin-top:10px">Bracket ya definido con '+state.bracket.matches.length+' partidos de Octavos</p>';
   }
 }
 
@@ -1061,6 +1062,63 @@ function toast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ── PRONÓSTICOS Y RESULTADOS VISTA PÚBLICA ───────────────────
+function renderPronosticosView(){
+  const container = document.getElementById('pronosticos-view');
+  if(!container) return;
+  const matches = getMatchesWithTeams().filter(m => m.home && m.away && isLocked(m));
+  if(!matches.length){ container.innerHTML=''; return; }
+
+  const approved = state.participants.filter(p => !state.pending || !state.pending.includes(p));
+  const byRound={};
+  matches.forEach(m=>{ if(!byRound[m.round]) byRound[m.round]=[]; byRound[m.round].push(m); });
+
+  let html = '<div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1.5rem 0 .75rem;padding-bottom:4px;border-bottom:1px solid var(--border2)">Pronósticos revelados</div>';
+
+  ROUNDS.forEach(round=>{
+    const rMatches = byRound[round.id];
+    if(!rMatches) return;
+    html += '<div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:1.2rem 0 .5rem;padding-bottom:4px;border-bottom:1px solid rgba(232,200,74,.2)">'+round.name+'</div>';
+    rMatches.forEach(m=>{
+      const real = state.results[m.id];
+      html += '<div class="card" style="margin-bottom:10px">';
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
+      html += '<span style="font-size:.9rem;font-weight:600">'+f(m.home)+' '+m.home+' vs '+f(m.away)+' '+m.away+'</span>';
+      if(real){
+        html += '<span style="font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;color:var(--accent)">'+real.h+' - '+real.a+'</span>';
+      } else {
+        html += '<span class="pill pending">En curso</span>';
+      }
+      html += '</div>';
+      html += '<table style="width:100%;border-collapse:collapse;font-size:.82rem"><thead><tr>';
+      html += '<th style="color:var(--muted);font-weight:500;padding:5px 8px;text-align:left;border-bottom:1px solid var(--border)">Participante</th>';
+      html += '<th style="color:var(--muted);font-weight:500;padding:5px 8px;text-align:center;border-bottom:1px solid var(--border)">Pronóstico</th>';
+      html += '<th style="color:var(--muted);font-weight:500;padding:5px 8px;text-align:center;border-bottom:1px solid var(--border)">Pts</th>';
+      html += '</tr></thead><tbody>';
+      approved.forEach(p=>{
+        const prono = state.pronosticos[p] && state.pronosticos[p][m.id];
+        html += '<tr>';
+        html += '<td style="padding:6px 8px;border-bottom:1px solid var(--border);font-weight:500">'+p+'</td>';
+        if(!prono){
+          html += '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:center;color:var(--muted);font-style:italic">No pronosticó</td><td style="text-align:center;border-bottom:1px solid var(--border)">—</td>';
+        } else {
+          let pts=0, cls='color:var(--muted)';
+          const round = ROUNDS.find(r=>r.id===m.round)||ROUNDS[0];
+          if(real){
+            if(prono.h===real.h&&prono.a===real.a){ pts=round.exact; cls='color:var(--green);font-weight:700'; }
+            else if(calcWinner(prono.h,prono.a)===calcWinner(real.h,real.a)){ pts=round.result; cls='color:var(--accent2);font-weight:600'; }
+          }
+          html += '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:center;'+cls+'">'+prono.h+' - '+prono.a+'</td>';
+          html += '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:center">'+(real?(pts>0?'+'+pts:'0'):'—')+'</td>';
+        }
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+    });
+  });
+  container.innerHTML = html;
 }
 
 // ── AUTO-LOCK WATCHER ─────────────────────────────────────────
