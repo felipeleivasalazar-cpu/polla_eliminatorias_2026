@@ -1075,19 +1075,19 @@ function renderPronosticosView(){
   const byRound={};
   matches.forEach(m=>{ if(!byRound[m.round]) byRound[m.round]=[]; byRound[m.round].push(m); });
 
-  let html = '<div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1.5rem 0 .75rem;padding-bottom:4px;border-bottom:1px solid var(--border2)">Pronósticos revelados</div>';
+  let html = '<div style="font-family:var(--font-cond,sans-serif);font-weight:700;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1.5rem 0 .75rem;padding-bottom:4px;border-bottom:1px solid var(--border2)">Pronósticos revelados</div>';
 
   ROUNDS.forEach(round=>{
     const rMatches = byRound[round.id];
     if(!rMatches) return;
-    html += '<div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:1.2rem 0 .5rem;padding-bottom:4px;border-bottom:1px solid rgba(232,200,74,.2)">'+round.name+'</div>';
+    html += '<div style="font-family:var(--font-cond,sans-serif);font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:1.2rem 0 .5rem;padding-bottom:4px;border-bottom:1px solid rgba(232,200,74,.2)">'+round.name+'</div>';
     rMatches.forEach(m=>{
       const real = state.results[m.id];
       html += '<div class="card" style="margin-bottom:10px">';
       html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
       html += '<span style="font-size:.9rem;font-weight:600">'+f(m.home)+' '+m.home+' vs '+f(m.away)+' '+m.away+'</span>';
       if(real){
-        html += '<span style="font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;color:var(--accent)">'+real.h+' - '+real.a+'</span>';
+        html += '<span style="font-family:var(--font-cond,sans-serif);font-size:1.2rem;font-weight:700;color:var(--accent)">'+real.h+' - '+real.a+'</span>';
       } else {
         html += '<span class="pill pending">En curso</span>';
       }
