@@ -107,7 +107,7 @@ input:focus,select:focus{border-color:var(--accent)}
 <div class="hero hero-deco">
   <span class="hero-trophy">&#127942;</span>
   <div class="hero-title">Polla <span>Eliminatorias</span> 2026</div>
-  <div class="hero-sub">Octavos &middot; Cuartos &middot; Semis &middot; Final</div>
+  <div class="hero-sub">Octavos &middot; Cuartos &middot; Semis &middot; 3er lugar &middot; Final</div>
   <div class="api-banner" id="api-config" style="display:none">
     Configura tu Google Apps Script URL:
     <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/AKfycbxWL52sR3bE6PYYMg8qs8uYW_bnzPcFGkKYYYjR9OECj7IggUyhbVQiDvJBVZGzLuAyAw/exec">
@@ -223,13 +223,15 @@ input:focus,select:focus{border-color:var(--accent)}
         <table class="points-table">
           <thead><tr><th class="left">Ronda</th><th>Exacto</th><th>Resultado</th></tr></thead>
           <tbody>
-            <tr><td class="left">Octavos</td><td><span class="pill exact">+4</span></td><td><span class="pill result">+2</span></td></tr>
-            <tr><td class="left">Cuartos</td><td><span class="pill exact">+5</span></td><td><span class="pill result">+2</span></td></tr>
-            <tr><td class="left">Semifinal</td><td><span class="pill exact">+6</span></td><td><span class="pill result">+3</span></td></tr>
-            <tr><td class="left">Final</td><td><span class="pill exact">+8</span></td><td><span class="pill result">+4</span></td></tr>
+            <tr><td class="left">Octavos</td><td><span class="pill exact">+6</span></td><td><span class="pill result">+2</span></td></tr>
+            <tr><td class="left">Cuartos</td><td><span class="pill exact">+7</span></td><td><span class="pill result">+2</span></td></tr>
+            <tr><td class="left">Semifinal</td><td><span class="pill exact">+9</span></td><td><span class="pill result">+3</span></td></tr>
+            <tr><td class="left">3er y 4to lugar</td><td><span class="pill exact">+6</span></td><td><span class="pill result">+2</span></td></tr>
+            <tr><td class="left">Final</td><td><span class="pill exact">+12</span></td><td><span class="pill result">+4</span></td></tr>
             <tr><td class="left">Campeón</td><td colspan="2"><span class="pill bonus">+10 bonus</span></td></tr>
           </tbody>
         </table>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:8px">* Exacto incluye también los puntos de resultado correcto</p>
       </div>
 
       <div style="border-left:3px solid var(--accent);padding-left:12px;margin-bottom:1.2rem">
@@ -385,8 +387,8 @@ async function apiPost(body){
 
 // Partidos hardcodeados con fechas en hora Chile (CLT = UTC-4)
 const MATCHES_R8 = [
-  {id:'p89', round:'r8',    home:'Paraguay',   away:'Francia',    kickoff:'2026-07-03T21:01:00-04:00', venue:'Estadio Filadelfia'},
-  {id:'p90', round:'r8',    home:'Canadá',     away:'Marruecos',  kickoff:'2026-07-03T21:05:00-04:00', venue:'Estadio Houston'},
+  {id:'p89', round:'r8',    home:'Paraguay',   away:'Francia',    kickoff:'2026-07-03T21:20:00-04:00', venue:'Estadio Filadelfia'},
+  {id:'p90', round:'r8',    home:'Canadá',     away:'Marruecos',  kickoff:'2026-07-03T21:24:00-04:00', venue:'Estadio Houston'},
   {id:'p91', round:'r8',    home:'Brasil',     away:'Noruega',    kickoff:'2026-07-05T16:00:00-04:00', venue:'Estadio Nueva York'},
   {id:'p92', round:'r8',    home:'México',     away:'Inglaterra', kickoff:'2026-07-05T20:00:00-04:00', venue:'Estadio Ciudad de México'},
   {id:'p93', round:'r8',    home:'Portugal',   away:'España',     kickoff:'2026-07-06T15:00:00-04:00', venue:'Estadio Dallas'},
@@ -395,7 +397,7 @@ const MATCHES_R8 = [
   {id:'p96', round:'r8',    home:'Suiza',      away:'Colombia',   kickoff:'2026-07-07T16:00:00-04:00', venue:'Estadio Vancouver'},
 ];
 const MATCHES_R4 = [
-  {id:'p97', round:'r4',  home:'', away:'', kickoff:'2026-07-03T21:08:00-04:00', venue:'Estadio Boston',      hint:'G.P89 vs G.P90', candidates:['Paraguay','Francia','Canadá','Marruecos']},
+  {id:'p97', round:'r4',  home:'', away:'', kickoff:'2026-07-03T21:28:00-04:00', venue:'Estadio Boston',      hint:'G.P89 vs G.P90', candidates:['Paraguay','Francia','Canadá','Marruecos']},
   {id:'p98', round:'r4',  home:'', away:'', kickoff:'2026-07-10T15:00:00-04:00', venue:'Estadio Los Ángeles', hint:'G.P93 vs G.P94', candidates:['Portugal','España','USA','Bélgica']},
   {id:'p99', round:'r4',  home:'', away:'', kickoff:'2026-07-11T17:00:00-04:00', venue:'Estadio Miami',       hint:'G.P91 vs G.P92', candidates:['Brasil','Noruega','México','Inglaterra']},
   {id:'p100',round:'r4',  home:'', away:'', kickoff:'2026-07-11T21:00:00-04:00', venue:'Estadio Kansas City', hint:'G.P95 vs G.P96', candidates:['Argentina','Egipto','Suiza','Colombia']},
@@ -727,7 +729,7 @@ function calcScore(user){
     const p = prono[m.id];
     if(!real || !p) return;
     const round = getRoundInfo(m.round);
-    if(p.h===real.h && p.a===real.a){ exact++; result++; total += round.exact; }
+    if(p.h===real.h && p.a===real.a){ exact++; result++; total += round.exact + round.result; }
     else if(calcWinner(p.h,p.a)===calcWinner(real.h,real.a)){ result++; total += round.result; }
   });
 
@@ -1107,7 +1109,7 @@ function renderPronosticosView(){
           let pts=0, cls='color:var(--muted)';
           const round = ROUNDS.find(r=>r.id===m.round)||ROUNDS[0];
           if(real){
-            if(prono.h===real.h&&prono.a===real.a){ pts=round.exact; cls='color:var(--green);font-weight:700'; }
+            if(prono.h===real.h&&prono.a===real.a){ pts=round.exact+round.result; cls='color:var(--green);font-weight:700'; }
             else if(calcWinner(prono.h,prono.a)===calcWinner(real.h,real.a)){ pts=round.result; cls='color:var(--accent2);font-weight:600'; }
           }
           html += '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:center;'+cls+'">'+prono.h+' - '+prono.a+'</td>';
