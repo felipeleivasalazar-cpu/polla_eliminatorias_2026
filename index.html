@@ -110,7 +110,7 @@ input:focus,select:focus{border-color:var(--accent)}
   <div class="hero-sub">Octavos &middot; Cuartos &middot; Semis &middot; 3er lugar &middot; Final</div>
   <div class="api-banner" id="api-config" style="display:none">
     Configura tu Google Apps Script URL:
-    <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/AKfycbxWL52sR3bE6PYYMg8qs8uYW_bnzPcFGkKYYYjR9OECj7IggUyhbVQiDvJBVZGzLuAyAw/exec">
+    <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/.../exec">
     <button onclick="setApiUrl()">Guardar</button>
   </div>
 </div>
@@ -194,6 +194,7 @@ input:focus,select:focus{border-color:var(--accent)}
   <!-- RESULTADOS -->
   <div id="view-resultados" class="view">
     <div id="leaderboard"></div>
+    <div id="champions-view" style="margin-top:1.5rem"></div>
     <div id="pronosticos-view" style="margin-top:1.5rem"></div>
   </div>
 
@@ -343,6 +344,57 @@ function f(t){
   return '<img src="https://flagcdn.com/20x15/'+code+'.png" width="20" height="15" alt="'+t+'" style="border-radius:2px;vertical-align:middle;margin-right:3px">';
 }
 
+const TEAM_EMOJI = {
+  'Argentina':   '🧉',
+  'Bélgica':     '🍟',
+  'Brasil':      '🌴',
+  'Canadá':      '🍁',
+  'Colombia':    '☕',
+  'Egipto':      '🐪',
+  'España':      '🥘',
+  'Francia':     '🥐',
+  'Inglaterra':  '🫖',
+  'Marruecos':   '🏺',
+  'México':      '🌮',
+  'Noruega':     '🪓',
+  'Paraguay':    '🎸',
+  'Portugal':    '🐓',
+  'Suiza':       '🧀',
+  'USA':         '🦅',
+  'Alemania':    '🍺',
+  'Australia':   '🦘',
+  'Austria':     '🎼',
+  'Arabia Saudita': '🌙',
+  'Bosnia y Herzegovina': '🦅',
+  'Cabo Verde':  '🌊',
+  'Corea del Sur': '🥢',
+  'Costa de Marfil': '🐘',
+  'Croacia':     '🏁',
+  'Curazao':     '🦜',
+  'Ecuador':     '🌋',
+  'Escocia':     '🏴',
+  'Ghana':       '⭐',
+  'Haití':       '🥁',
+  'Irak':        '🌙',
+  'Irán':        '🕌',
+  'Japón':       '⛩️',
+  'Jordania':    '🏜️',
+  'Países Bajos':'🌷',
+  'Panamá':      '🚢',
+  'Qatar':       '🏟️',
+  'República Checa': '🍻',
+  'RD Congo':    '🦁',
+  'Senegal':     '🦁',
+  'Sudáfrica':   '🦒',
+  'Suecia':      '🫎',
+  'Túnez':       '🐪',
+  'Turquía':     '🕌',
+  'Uruguay':     '🧉',
+  'Uzbekistán':  '🏇',
+};
+
+function teamEmoji(t){ return TEAM_EMOJI[t] || '⚽'; }
+
 const ROUNDS = [
   {id:'r8',    name:'Octavos',              exact:4, result:2},
   {id:'r4',    name:'Cuartos',              exact:5, result:2},
@@ -465,7 +517,7 @@ function switchTab(tab){
   const btn = document.querySelector("[onclick=\"switchTab('"+tab+"')\"]");
   if(btn) btn.classList.add('active');
   document.getElementById('view-'+tab).classList.add('active');
-  if(tab==='resultados'){renderLeaderboard();renderPronosticosView();}
+  if(tab==='resultados'){renderLeaderboard();renderChampionsView();renderPronosticosView();}
   if(tab==='admin'){ if(sessionStorage.getItem('adminOkElim')==='1') showAdminContent(); }
   if(tab==='pronosticos'){updateSelects();clearPinValidation();}
   if(tab==='registro'){renderParticipants();}
@@ -1064,6 +1116,65 @@ function toast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ── PRONÓSTICOS DE CAMPEÓN VISTA PÚBLICA ─────────────────────
+function renderChampionsView(){
+  const container = document.getElementById('champions-view');
+  if(!container) return;
+  const approved = state.participants.filter(p => !state.pending || !state.pending.includes(p));
+  if(!approved.length){ container.innerHTML=''; return; }
+
+  const locked = bracketStarted();
+  if(!locked){ container.innerHTML=''; return; }
+
+  let html = '<div class="card">';
+  html += '<div class="card-title">Pronósticos de campeón</div>';
+  html += '<table style="width:100%;border-collapse:collapse;font-size:.85rem">';
+  html += '<thead><tr>';
+  html += '<th style="color:var(--muted);font-weight:500;padding:6px 8px;text-align:left;border-bottom:1px solid var(--border)">Participante</th>';
+  html += '<th style="color:var(--muted);font-weight:500;padding:6px 8px;text-align:left;border-bottom:1px solid var(--border)">Campeón pronosticado</th>';
+  html += '<th style="color:var(--muted);font-weight:500;padding:6px 8px;text-align:center;border-bottom:1px solid var(--border)">Estado</th>';
+  html += '<th style="color:var(--muted);font-weight:500;padding:6px 8px;text-align:center;border-bottom:1px solid var(--border)">Puntos</th>';
+  html += '</tr></thead><tbody>';
+
+  // Equipos aún en carrera (los que tienen partido sin resultado o ganaron su último partido)
+  const allMatches = getMatchesWithTeams();
+  const eliminated = new Set();
+  allMatches.forEach(m => {
+    const r = state.results[m.id];
+    if(r && m.home && m.away){
+      if(r.h > r.a) eliminated.add(m.away);
+      else if(r.a > r.h) eliminated.add(m.home);
+      else { eliminated.add(m.home); eliminated.add(m.away); } // empate en 90min, ambos siguen hasta definirse
+    }
+  });
+
+  approved.forEach(p => {
+    const team = state.champions && state.champions[p];
+    const isWinner = state.finalChampion && team === state.finalChampion;
+    const isEliminated = team && eliminated.has(team);
+    const stillAlive = team && !isEliminated && !state.finalChampion;
+    const emoji = team ? teamEmoji(team) : '';
+    const teamCls = isWinner ? 'color:var(--green);font-weight:700' : isEliminated ? 'color:var(--muted);text-decoration:line-through' : '';
+    const statusIcon = !team ? '' : isWinner ? '🏆' : isEliminated ? '💀' : stillAlive ? '😊' : '';
+    html += '<tr>';
+    html += '<td style="padding:8px;border-bottom:1px solid var(--border);font-weight:500">'+p+'</td>';
+    html += '<td style="padding:8px;border-bottom:1px solid var(--border);'+teamCls+'">'+(team ? emoji+' '+f(team)+' '+team : '<span style="color:var(--muted);font-style:italic">No pronosticó</span>')+'</td>';
+    html += '<td style="padding:8px;border-bottom:1px solid var(--border);text-align:center;font-size:1.3rem">'+statusIcon+'</td>';
+    html += '<td style="padding:8px;border-bottom:1px solid var(--border);text-align:center">';
+    if(!state.finalChampion){
+      html += '<span class="pill pending">Por definir</span>';
+    } else if(isWinner){
+      html += '<span class="pill bonus">+10 pts</span>';
+    } else {
+      html += '<span style="color:var(--muted)">—</span>';
+    }
+    html += '</td></tr>';
+  });
+
+  html += '</tbody></table></div>';
+  container.innerHTML = html;
 }
 
 // ── PRONÓSTICOS Y RESULTADOS VISTA PÚBLICA ───────────────────
