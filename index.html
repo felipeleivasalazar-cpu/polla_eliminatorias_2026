@@ -1138,7 +1138,8 @@ function renderChampionsView(){
   html += '<th style="color:var(--muted);font-weight:500;padding:6px 8px;text-align:center;border-bottom:1px solid var(--border)">Puntos</th>';
   html += '</tr></thead><tbody>';
 
-  // Equipos aún en carrera (los que tienen partido sin resultado o ganaron su último partido)
+  // Equipos eliminados: solo los que perdieron claramente en 90 minutos
+  // Los empates no eliminan a nadie (van a alargue/penales, el admin ingresará quien avanza)
   const allMatches = getMatchesWithTeams();
   const eliminated = new Set();
   allMatches.forEach(m => {
@@ -1146,7 +1147,19 @@ function renderChampionsView(){
     if(r && m.home && m.away){
       if(r.h > r.a) eliminated.add(m.away);
       else if(r.a > r.h) eliminated.add(m.home);
-      else { eliminated.add(m.home); eliminated.add(m.away); } // empate en 90min, ambos siguen hasta definirse
+      // empate: no eliminamos a nadie, se resuelve en alargue/penales
+    }
+  });
+  // Si el admin confirmó equipos para la siguiente ronda, los que NO aparecen están eliminados
+  const advancers = state.advancers || {};
+  const confirmedAdvancers = new Set(Object.values(advancers).filter(Boolean));
+  // Solo marcar como eliminado si apareció en octavos y no está confirmado para cuartos
+  const r8teams = new Set(MATCHES_R8.map(m=>[m.home,m.away]).flat());
+  r8teams.forEach(t => {
+    if(t && confirmedAdvancers.size > 0 && !confirmedAdvancers.has(t)){
+      // Verificar si ya jugó algún partido de octavos
+      const played = MATCHES_R8.some(m => (m.home===t||m.away===t) && state.results[m.id]);
+      if(played) eliminated.add(t);
     }
   });
 
